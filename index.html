@@ -1,1 +1,359 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102a56">
+  <meta name="description" content="School learning materials, Olympiad practice, competitive exam preparation and online mock tests.">
+  <title>Competitive Exam, Academic & Olympiad Preparation</title>
+  <style>
+    :root {
+      --navy: #102a56;
+      --blue: #245ce5;
+      --gold: #ffbd59;
+      --light: #f4f7ff;
+      --ink: #18243a;
+      --muted: #65728a;
+      --white: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--light);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+    a { text-decoration: none; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .topbar {
+      background: var(--navy);
+      color: white;
+      text-align: center;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+    header {
+      background: white;
+      padding: 15px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      box-shadow: 0 3px 16px #102a5610;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--navy);
+      font-weight: 800;
+      line-height: 1.3;
+    }
+    .logo {
+      width: 45px;
+      height: 45px;
+      background: var(--navy);
+      color: var(--gold);
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      font-size: 25px;
+    }
+    .brand small { display: block; font-size: 11px; color: var(--muted); }
+    nav { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    nav a { color: var(--ink); font-size: 14px; font-weight: 700; }
+    .hero {
+      background: linear-gradient(125deg, #102a56, #245ce5);
+      color: white;
+      padding: 68px 7%;
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      align-items: center;
+      gap: 40px;
+      overflow: hidden;
+    }
+    .eyebrow {
+      display: inline-block;
+      padding: 7px 13px;
+      border-radius: 25px;
+      background: #ffffff19;
+      border: 1px solid #ffffff35;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+    h1 {
+      font-size: clamp(34px, 5vw, 57px);
+      line-height: 1.12;
+      margin: 22px 0;
+      letter-spacing: -1.5px;
+    }
+    h1 span { color: var(--gold); }
+    .hero p { color: #e0e9ff; max-width: 570px; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 27px; }
+    .btn {
+      display: inline-block;
+      padding: 12px 19px;
+      border-radius: 9px;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      border: 0;
+      font-size: 14px;
+    }
+    .btn-gold { background: var(--gold); color: var(--navy); }
+    .btn-white { background: white; color: var(--navy); }
+    .btn-blue { background: var(--blue); color: white; }
+    .hero-art {
+      background: #ffffff12;
+      border: 1px solid #ffffff28;
+      border-radius: 28px;
+      padding: 30px;
+      text-align: center;
+    }
+    .hero-art .book { font-size: 95px; line-height: 1.4; }
+    .hero-art h3 { margin: 5px 0; }
+    .hero-art p { margin: 5px auto; font-size: 14px; }
+    .section { padding: 55px 6%; }
+    .section-heading { text-align: center; margin-bottom: 30px; }
+    .section-heading h2 { color: var(--navy); font-size: 30px; margin: 0 0 8px; }
+    .section-heading p { color: var(--muted); margin: 0; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 17px;
+      border: 1px solid #e7ecf6;
+      box-shadow: 0 7px 22px #102a5608;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px #102a5615; }
+    .card-icon {
+      width: 55px;
+      height: 55px;
+      border-radius: 15px;
+      background: #edf2ff;
+      display: grid;
+      place-items: center;
+      font-size: 27px;
+    }
+    .card h3 { color: var(--navy); margin: 15px 0 7px; }
+    .card p { color: var(--muted); font-size: 14px; }
+    .card a { color: var(--blue); font-weight: 700; font-size: 14px; }
+    .feature-section { background: white; }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+    .feature {
+      padding: 20px 12px;
+      background: var(--light);
+      border-radius: 12px;
+      text-align: center;
+    }
+    .feature div { font-size: 28px; }
+    .feature strong { display: block; color: var(--navy); margin-top: 7px; }
+    .feature small { color: var(--muted); }
+    .cta {
+      margin: 0 6% 55px;
+      padding: 38px 25px;
+      background: #e7eeff;
+      border-radius: 20px;
+      text-align: center;
+    }
+    .cta h2 { color: var(--navy); margin-top: 0; }
+    footer {
+      background: #0b1e3e;
+      color: white;
+      padding: 32px 6%;
+      text-align: center;
+    }
+    footer p { color: #cbd5e8; font-size: 13px; }
+    footer a { color: var(--gold); margin: 0 8px; font-size: 13px; }
+    .notice { font-size: 12px; color: var(--muted); margin-top: 20px; }
+    @media (max-width: 760px) {
+      header { padding: 12px 4%; flex-wrap: wrap; }
+      nav { width: 100%; justify-content: center; gap: 14px; }
+      nav a { font-size: 12px; }
+      .hero { grid-template-columns: 1fr; padding: 45px 6%; gap: 25px; }
+      .hero-art { padding: 20px; }
+      .hero-art .book { font-size: 65px; }
+      .grid { grid-template-columns: 1fr; gap: 14px; }
+      .section { padding: 40px 5%; }
+      .section-heading h2 { font-size: 25px; }
+      .feature-grid { grid-template-columns: repeat(2, 1fr); }
+      .cta { margin: 0 5% 40px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    Learn • Practise • Improve • Achieve
+  </div>
+
+  <header>
+    <a class="brand" href="#home">
+      <div class="logo">✦</div>
+      <div>
+        Academic & Olympiad
+        <small>LEARN TODAY, LEAD TOMORROW</small>
+      </div>
+    </a>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#school">School Learning</a>
+      <a href="#olympiad">Olympiad</a>
+      <a href="#competitive">Competitive Exams</a>
+      <a href="#materials">Study Materials</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div>
+        <span class="eyebrow">YOUR LEARNING JOURNEY STARTS HERE</span>
+        <h1>Prepare Better.<br>Learn Smarter.<br><span>Achieve More.</span></h1>
+        <p>
+          Your learning destination for school subjects, Olympiad
+          practice, competitive examinations, study notes and online
+          mock tests — all in one place.
+        </p>
+        <div class="actions">
+          <a class="btn btn-gold" href="#materials">Explore Study Materials →</a>
+          <a class="btn btn-white" href="#olympiad">Explore Mock Tests</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="book">📚</div>
+        <h3>Knowledge Opens Doors</h3>
+        <p>Build strong concepts, practise regularly and track your progress.</p>
+      </div>
+    </section>
+
+    <section class="section" id="school">
+      <div class="section-heading">
+        <h2>Explore Your Learning Path</h2>
+        <p>Choose a category to begin your preparation.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="card-icon">🎓</div>
+          <h3>School Academic</h3>
+          <p>Class-wise learning resources, subject notes, chapter summaries and practice questions.</p>
+          <a href="#materials">Explore school resources →</a>
+        </article>
+        <article class="card" id="olympiad">
+          <div class="card-icon">🏆</div>
+          <h3>Olympiad Preparation</h3>
+          <p>Concept-based exercises, Olympiad-style MCQs and timed practice tests.</p>
+          <a href="#tests">Explore Olympiad practice →</a>
+        </article>
+        <article class="card" id="competitive">
+          <div class="card-icon">🎯</div>
+          <h3>Competitive Exams</h3>
+          <p>Practice questions, revision resources and mock tests for competitive examinations.</p>
+          <a href="#tests">Explore exam practice →</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section feature-section" id="materials">
+      <div class="section-heading">
+        <h2>Study Materials & Resources</h2>
+        <p>Organised learning resources to make preparation easier.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="card-icon">📖</div>
+          <h3>Chapter-wise Notes</h3>
+          <p>Find notes and revision material arranged by class, subject and chapter.</p>
+          <a href="#future">Browse materials — coming soon</a>
+        </article>
+        <article class="card">
+          <div class="card-icon">📄</div>
+          <h3>PDF Downloads</h3>
+          <p>Access printable worksheets, study guides and practice papers.</p>
+          <a href="#future">PDF library — coming soon</a>
+        </article>
+        <article class="card">
+          <div class="card-icon">🧠</div>
+          <h3>Practice Questions</h3>
+          <p>Strengthen your understanding with topic-based exercises and revision questions.</p>
+          <a href="#tests">Explore practice options →</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="tests">
+      <div class="section-heading">
+        <h2>Online Mock Tests</h2>
+        <p>Practise under exam-like conditions and assess your preparation.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="card-icon">⏱️</div>
+          <h3>Timed MCQ Tests</h3>
+          <p>Attempt multiple-choice questions with a test timer.</p>
+          <a href="#future">Mock tests — coming soon</a>
+        </article>
+        <article class="card">
+          <div class="card-icon">📊</div>
+          <h3>Instant Results</h3>
+          <p>Plan for automatic scoring, answer review and performance reports.</p>
+          <a href="#future">Results — coming soon</a>
+        </article>
+        <article class="card">
+          <div class="card-icon">🚀</div>
+          <h3>Regular Practice</h3>
+          <p>Build confidence through consistent practice and revision.</p>
+          <a href="#future">Start practising — coming soon</a>
+        </article>
+      </div>
+      <p class="notice" style="text-align:center">
+        Note: These are introductory sections. Interactive tests and downloadable materials will be added in later development stages.
+      </p>
+    </section>
+
+    <section class="section feature-section" id="future">
+      <div class="section-heading">
+        <h2>Designed for Your Success</h2>
+        <p>A platform we can expand as your learning community grows.</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature"><div>📱</div><strong>Mobile Friendly</strong><small>Responsive design</small></div>
+        <div class="feature"><div>📚</div><strong>Organised Learning</strong><small>Class and subject wise</small></div>
+        <div class="feature"><div>✍️</div><strong>Exam Practice</strong><small>Build confidence</small></div>
+        <div class="feature"><div>🌟</div><strong>Future Ready</strong><small>App-ready development</small></div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>Your Next Achievement Starts Today</h2>
+      <p>Explore learning resources and prepare for your next goal.</p>
+      <a class="btn btn-blue" href="#school">Explore the Website</a>
+    </section>
+  </main>
+
+  <footer>
+    <strong>Competitive Exam, Academic & Olympiad Preparation</strong>
+    <p>Learn with purpose. Practise with confidence. Achieve your goals.</p>
+    <div>
+      <a href="#home">Home</a>
+      <a href="#materials">Study Materials</a>
+      <a href="#tests">Mock Tests</a>
+    </div>
+    <p>© <span id="year"></span> Academic & Olympiad Preparation</p>
+  </footer>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+
