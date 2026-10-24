@@ -49,12 +49,12 @@ Do not paste your UID into chat. Paste the final rules into Realtime Database > 
     "publishedMaterials": {
       ".read": true,
       "$materialId": {
-        ".write": "auth != null && auth.uid === 'ADMIN_UID_HERE'"
+        ".write": "auth != null && auth.uid === 'hlzrBHfTyQWWyEEjmDnQQckkQyf1'"
       }
     },
     "studyMaterials": {
-      ".read": "auth != null && auth.uid === 'ADMIN_UID_HERE'",
-      ".write": "auth != null && auth.uid === 'ADMIN_UID_HERE'"
+      ".read": "auth != null && auth.uid === 'hlzrBHfTyQWWyEEjmDnQQckkQyf1'",
+      ".write": "auth != null && auth.uid === 'hlzrBHfTyQWWyEEjmDnQQckkQyf1'"
     }
   }
 }
