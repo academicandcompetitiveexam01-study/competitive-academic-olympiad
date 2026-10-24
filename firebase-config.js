@@ -1,12 +1,11 @@
-// Add the Firebase Web App configuration from Firebase Console > Project settings > Your apps.
-// This configuration is intended to be public; never put service-account keys or private API secrets here.
-window.FIREBASE_CONFIG = {
-  apiKey: "PASTE_FIREBASE_WEB_API_KEY_HERE",
-  authDomain: "PASTE_PROJECT_ID.firebaseapp.com",
-  databaseURL: "https://competitive-academic-olympiad-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "competitive-academic-olympiad",
-  appId: "PASTE_FIREBASE_APP_ID_HERE"
-};
-
-// Used only to hide admin UI for non-admin users. Database rules MUST enforce this UID too.
-window.ADMIN_UID = "PASTE_YOUR_FIREBASE_AUTH_USER_UID_HERE";
+const firebaseConfig = {
+    apiKey: "AIzaSyDT4xvHIV2sqPzuInlb-UIjsd81brAro2w",
+    authDomain: "competitive-academic-olympiad.firebaseapp.com",
+    databaseURL: "https://competitive-academic-olympiad-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "competitive-academic-olympiad",
+    storageBucket: "competitive-academic-olympiad.firebasestorage.app",
+    messagingSenderId: "848455048109",
+    appId: "1:848455048109:web:7cdac8dd3996928c219f24",
+    measurementId: "G-8K43M36LR2"
+  };
+window.ADMIN_UID = "hlzrBHfTyQWWyEEjmDnQQckkQyf1";
