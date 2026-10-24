@@ -1,4 +1,4 @@
-const firebaseConfig = {
+window.FIREBASE_CONFIG = {
     apiKey: "AIzaSyDT4xvHIV2sqPzuInlb-UIjsd81brAro2w",
     authDomain: "competitive-academic-olympiad.firebaseapp.com",
     databaseURL: "https://competitive-academic-olympiad-default-rtdb.asia-southeast1.firebasedatabase.app",
