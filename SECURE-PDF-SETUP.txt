@@ -1,0 +1,67 @@
+SECURE STUDENT PDF ACCESS — INSTALLATION GUIDE
+================================================
+
+WHAT THIS ADDS
+- student-login.html: individual Firebase Email/Password login.
+- student-materials.html: signed-in secure library.
+- secure-pdf.html: authenticated PDF viewer and download button.
+- FIREBASE-STORAGE-RULES.txt: suggested Storage rules to review and publish.
+
+EXISTING FILES
+This update is designed to add new files only. Do not replace index.html, admin.html, materials.html, school.html, or firebase-config.js. Your existing homepage and admin panel remain in place.
+
+IMPORTANT: FIREBASE USERNAME
+Firebase's built-in Email/Password provider signs in with an email address and password. In this version, the student's email address is their username. Do not store plain-text passwords in Realtime Database.
+
+STEP 1 — UPLOAD NEW FILES
+Upload these files to the ROOT of your existing GitHub repository:
+- student-login.html
+- student-materials.html
+- secure-pdf.html
+
+Do not upload this text guide as a web page unless you want it publicly visible.
+
+STEP 2 — ENABLE AUTHENTICATION
+In Firebase Console > Authentication > Sign-in method, ensure Email/Password is enabled.
+In Authentication > Users, create one account per authorised student, using an email address and a temporary password. Share credentials privately and ask students to change their password if your setup supports password reset.
+
+STEP 3 — SET STORAGE RULES
+In Firebase Console > Storage > Rules, review the file FIREBASE-STORAGE-RULES.txt. It uses your existing admin UID for uploads. Publish only after confirming the UID is correct and the rule matches your intended access policy.
+Do not replace Realtime Database rules with Storage rules; they belong in different Firebase consoles.
+If Storage is not activated for this Firebase project, Firebase may ask you to enable it and choose a billing plan. Check the current pricing and project eligibility before proceeding.
+
+STEP 4 — UPLOAD PDF FILES
+In Firebase Console > Storage > Files, upload each protected PDF under the folder:
+secure-pdfs/
+For example: secure-pdfs/class-5/science/chapter-1.pdf
+Do not create/share public download links. The secure site uses the storage path, not a public download URL.
+
+STEP 5 — REGISTER EACH FILE IN REALTIME DATABASE
+In Firebase Console > Realtime Database > Data, add a child named secureMaterials. Under it, create one child per PDF using a unique key (letters, numbers, underscores or hyphens only). Example:
+
+secureMaterials
+  science_chapter_1
+    title: "Class 5 Science — Chapter 1"
+    className: "Class 5"
+    subject: "Science"
+    chapter: "Chapter 1"
+    description: "Study notes"
+    storagePath: "secure-pdfs/class-5/science/chapter-1.pdf"
+    fileName: "chapter-1.pdf"
+    published: true
+
+The value in storagePath must exactly match the Storage file path. Use true (boolean), not the text "true".
+Keep using your existing admin panel for your existing public Google Drive library. This secure library is separate and its entries are managed in Firebase Console until an admin upload workflow is added.
+
+STEP 6 — TEST WITH TWO ACCOUNTS
+1. Sign in at https://academicandcompetitiveexam01-study.github.io/competitive-academic-olympiad/student-login.html using an authorised student account.
+2. Open a PDF and test the download button.
+3. Sign out and open the same secure-pdf.html?id=... page in a private/incognito window without signing in. It should redirect to login.
+4. Test with an account you have NOT authorised by creating no account for that person. Do not give unauthorised people a login.
+5. Never paste public Firebase download-token URLs into secureMaterials.
+
+IMPORTANT LIMITS
+- This initial package does not automatically convert existing Google Drive PDFs into protected files. Those files must be uploaded to Firebase Storage and registered under secureMaterials.
+- This first version grants read access to every PDF under secure-pdfs/ to any account that can sign in. Only create accounts for authorised students. It does not implement per-student/per-file ACLs.
+- A downloaded PDF can be copied and shared. This setup protects the file URL from unauthorised access, not the content after an authorised student downloads it.
+- GitHub Pages is static hosting; the security boundary is Firebase Authentication + Firebase Storage rules.
