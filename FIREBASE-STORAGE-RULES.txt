@@ -1,26 +1,12 @@
-FIREBASE STORAGE RULES — REVIEW BEFORE PUBLISHING
-================================================
-
-The rules below require sign-in for reads and permit only the configured admin UID to upload, replace, or delete files under secure-pdfs/.
-
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    match /secure-pdfs/{allPaths=**} {
+    match /materials/{allPaths=**} {
+      // Allow read access ONLY if the user is authenticated
       allow read: if request.auth != null;
-      allow write: if request.auth != null
-                   && request.auth.uid == "hlzrBHfTyQWWyEEjmDnQQckkQyf1"
-                   && request.resource != null
-                   && request.resource.size < 25 * 1024 * 1024
-                   && request.resource.contentType == "application/pdf";
-      allow delete: if request.auth != null
-                    && request.auth.uid == "hlzrBHfTyQWWyEEjmDnQQckkQyf1";
+      
+      // Allow write/upload only for admins
+      allow write: if request.auth != null && request.auth.token.admin == true;
     }
   }
 }
-
-IMPORTANT SECURITY LIMITATION:
-- This version allows any account you create in Firebase Authentication to read files in secure-pdfs/. Only create accounts for authorised students.
-- Do not use public download URLs or Firebase download-token URLs for these PDFs. The site fetches the file using authenticated Firebase Storage SDK getBlob(), so a copied page URL does not itself grant access.
-- Signed-in students can still save/download PDFs and share the downloaded copy. No browser-based viewer can prevent that.
-- This rule checks admin writes but allows authenticated users to read all PDFs in secure-pdfs/. Per-student/per-document permissions need a trusted backend or a carefully designed authorization system; do not assume this basic rule provides per-file access control.

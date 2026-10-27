@@ -1,17 +1,60 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Secure Student Library</title>
-<style>
-:root{--navy:#102a56;--blue:#245ce5;--bg:#f4f7ff;--ink:#18243a;--muted:#65728a;--line:#dce4f2}
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}.top{background:var(--navy);color:#fff;padding:18px max(18px,calc((100% - 1050px)/2));display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.top a{color:#fff}.wrap{max-width:1050px;margin:25px auto;padding:0 16px}.panel,.item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin:12px 0}.filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}input,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:9px;font:inherit}.item h2{margin:0 0 6px;color:var(--navy);font-size:20px}.muted{color:var(--muted);font-size:14px}.btn{display:inline-block;background:var(--blue);color:#fff;padding:10px 14px;border-radius:8px;border:0;text-decoration:none;font-weight:700;cursor:pointer}.status{padding:12px;background:#eef3ff;border-radius:8px;white-space:pre-wrap;overflow-wrap:anywhere}@media(max-width:700px){.filters{grid-template-columns:1fr}}
-</style></head><body><header class="top"><strong>Secure Student Library</strong><nav><a href="index.html">Home</a>　<button class="btn" id="logout">Sign out</button></nav></header><main class="wrap"><section class="panel"><h1>Authorised Study Materials</h1><p class="muted">You must sign in to view or download PDFs. Do not share your account credentials.</p><div class="filters"><select id="classFilter"><option value="">All classes / exams</option></select><select id="subjectFilter"><option value="">All subjects</option></select><input id="search" placeholder="Search title or chapter"></div></section><div id="status" class="status">Checking your account…</div><section id="list"></section></main>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script><script src="firebase-config.js"></script>
-<script>
-let auth,db,storage,user,items=[];
-const $=id=>document.getElementById(id),status=t=>$('status').textContent=t;
-function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function options(id,values,first){const el=$(id),old=el.value;el.innerHTML='<option value="">'+first+'</option>'+values.sort().map(v=>'<option>'+esc(v)+'</option>').join('');if(values.includes(old))el.value=old}
-function render(){const c=$('classFilter').value,s=$('subjectFilter').value,q=$('search').value.toLowerCase();const shown=items.filter(x=>(!c||x.className===c)&&(!s||x.subject===s)&&[x.title,x.chapter,x.description,x.subject].join(' ').toLowerCase().includes(q));$('list').innerHTML=shown.map(x=>`<article class="item"><h2>${esc(x.title||x.chapter||'Study PDF')}</h2><p class="muted">${esc(x.className||'')} · ${esc(x.subject||'')} · ${esc(x.chapter||'')}</p><p>${esc(x.description||'')}</p><a class="btn" href="secure-pdf.html?id=${encodeURIComponent(x.id)}">View / Download PDF</a></article>`).join('')||'<section class="panel">No matching authorised materials were found.</section>'}
-async function load(){try{const snap=await db.ref('secureMaterials').once('value');const val=snap.val()||{};items=Object.entries(val).map(([id,x])=>({...x,id})).filter(x=>x.published===true&&x.storagePath);options('classFilter',[...new Set(items.map(x=>x.className||'Other'))],'All classes / exams');options('subjectFilter',[...new Set(items.map(x=>x.subject||'General'))],'All subjects');status('Signed in as '+user.email+'. '+items.length+' secure material(s) available.');render()}catch(e){status('Could not load the secure library: '+e.message)}}
-if(!window.FIREBASE_CONFIG){status('Firebase configuration is missing.')}else{firebase.initializeApp(window.FIREBASE_CONFIG);auth=firebase.auth();db=firebase.database();storage=firebase.storage();auth.onAuthStateChanged(u=>{if(!u){location.replace('student-login.html');return}user=u;load()})}
-$('logout').onclick=async()=>{await auth.signOut();location.href='student-login.html'};['classFilter','subjectFilter','search'].forEach(id=>$(id).addEventListener(id==='search'?'input':'change',render));
-</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Study Materials</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; }
+        .material-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        .btn-view {
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .btn-view:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Olympiad Study Materials</h1>
+        <div id="materials-list">
+            <div class="material-item">
+                <span>Mathematics Olympiad Practice Set 1</span>
+                <!-- Secure Link Route -->
+                <a href="secure-pdf.html?file=materials/math-olympiad.pdf" class="btn-view" target="_blank">View Document</a>
+            </div>
+            <div class="material-item">
+                <span>Science Olympiad Mock Exam</span>
+                <!-- Secure Link Route -->
+                <a href="secure-pdf.html?file=materials/science-mock.pdf" class="btn-view" target="_blank">View Document</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
